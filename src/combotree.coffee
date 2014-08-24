@@ -26,6 +26,9 @@ ko.bindingHandlers.combotreeSource=
 ko.bindingHandlers.combotreeValues =
     init:(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext)->
         utils.component.ensureComponentInited(element,"combotree",allBindingsAccessor,{multiple:true})
+        curValues=$(element).combotree('getValues') #修正初始化导致默认选中""的问题
+        if utils.array.all(curValues,(item)->!item)
+            $(element).combotree('setValues',[])
         values=valueAccessor()
         if not values()? or values().length is 0 #如果没有默认值，则初始化为当前combobox的值
             curValues=$(element).combogrid('getValues')

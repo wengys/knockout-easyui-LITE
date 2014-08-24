@@ -509,6 +509,12 @@
       utils.component.ensureComponentInited(element, "combotree", allBindingsAccessor, {
         multiple: true
       });
+      curValues = $(element).combotree('getValues');
+      if (utils.array.all(curValues, function(item) {
+        return !item;
+      })) {
+        $(element).combotree('setValues', []);
+      }
       values = valueAccessor();
       if ((values() == null) || values().length === 0) {
         curValues = $(element).combogrid('getValues');

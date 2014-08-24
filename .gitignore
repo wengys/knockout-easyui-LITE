@@ -65,5 +65,4 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
-# 本地日志
-todo.txt
+build
