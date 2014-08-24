@@ -42,7 +42,7 @@ ko.bindingHandlers.combogridValues =
         options=$(element).combogrid("options")
         #如果未修改，则不必更新
         if values?
-            if utils.array.sequenceEqual(oriValues,values,utils.identity)
+            if not utils.array.sequenceEqual(oriValues,values,utils.identity)
                 $(element).combogrid('setValues', values)
         else
             $(element).combogrid('clear')

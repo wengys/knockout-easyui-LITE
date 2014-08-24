@@ -58,7 +58,8 @@ utils=
                 if predictor(item)
                     return [index,item]
             return [null,null]
-
+        filter:(seq,predictor)->
+            item for item in seq when predictor(item)
     tree:
         treeToNodes:(tree)->
             tmpNodes=[]
@@ -159,11 +160,13 @@ ko.bindingHandlers.comboboxSource=
 ko.bindingHandlers.comboboxValues =
     init:(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext)->
         utils.component.ensureComponentInited(element,"combobox",allBindingsAccessor)
+        curValues=$(element).combobox('getValues') #修正初始化导致默认选中""的问题
+        if utils.array.all(curValues,(item)->!item)
+            $(element).combobox('setValues',[])
         values = valueAccessor()
         if not values()? or values().length is 0 #如果没有默认值，则初始化为当前combobox的值
             curValues=$(element).combobox('getValues')
-            if utils.array.all(curValues,(item)->!!item)
-                values(curValues)
+            values(curValues)
         options = $(element).combobox('options')
         options.multiple=true
         refreshValueFun=(oriFun)->
@@ -176,8 +179,7 @@ ko.bindingHandlers.comboboxValues =
         utils.component.bindDisposeEvent(element,"combobox")
     update:(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext)->
         values = ko.utils.unwrapObservable(valueAccessor())
-        if utils.array.sequenceEqual($(element).combobox('getValues'),values,utils.identity)
-            $(element).combobox('setValues', values)
+        $(element).combobox('setValues', values)
 
 ko.bindingHandlers.comboboxValue =
     init: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext)->
@@ -243,7 +245,7 @@ ko.bindingHandlers.combogridValues =
         options=$(element).combogrid("options")
         #如果未修改，则不必更新
         if values?
-            if utils.array.sequenceEqual(oriValues,values,utils.identity)
+            if not utils.array.sequenceEqual(oriValues,values,utils.identity)
                 $(element).combogrid('setValues', values)
         else
             $(element).combogrid('clear')

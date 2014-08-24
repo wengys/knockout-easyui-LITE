@@ -15,11 +15,13 @@ ko.bindingHandlers.comboboxSource=
 ko.bindingHandlers.comboboxValues =
     init:(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext)->
         utils.component.ensureComponentInited(element,"combobox",allBindingsAccessor)
+        curValues=$(element).combobox('getValues') #修正初始化导致默认选中""的问题
+        if utils.array.all(curValues,(item)->!item)
+            $(element).combobox('setValues',[])
         values = valueAccessor()
         if not values()? or values().length is 0 #如果没有默认值，则初始化为当前combobox的值
             curValues=$(element).combobox('getValues')
-            if utils.array.all(curValues,(item)->!!item)
-                values(curValues)
+            values(curValues)
         options = $(element).combobox('options')
         options.multiple=true
         refreshValueFun=(oriFun)->
@@ -32,8 +34,7 @@ ko.bindingHandlers.comboboxValues =
         utils.component.bindDisposeEvent(element,"combobox")
     update:(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext)->
         values = ko.utils.unwrapObservable(valueAccessor())
-        if utils.array.sequenceEqual($(element).combobox('getValues'),values,utils.identity)
-            $(element).combobox('setValues', values)
+        $(element).combobox('setValues', values)
 
 ko.bindingHandlers.comboboxValue =
     init: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext)->

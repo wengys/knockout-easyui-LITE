@@ -53,7 +53,8 @@ utils=
                 if predictor(item)
                     return [index,item]
             return [null,null]
-
+        filter:(seq,predictor)->
+            item for item in seq when predictor(item)
     tree:
         treeToNodes:(tree)->
             tmpNodes=[]

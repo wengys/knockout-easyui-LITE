@@ -105,6 +105,17 @@
           }
         }
         return [null, null];
+      },
+      filter: function(seq, predictor) {
+        var item, _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = seq.length; _i < _len; _i++) {
+          item = seq[_i];
+          if (predictor(item)) {
+            _results.push(item);
+          }
+        }
+        return _results;
       }
     },
     tree: {
@@ -258,14 +269,16 @@
     init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
       var curValues, options, refreshValueFun, values;
       utils.component.ensureComponentInited(element, "combobox", allBindingsAccessor);
+      curValues = $(element).combobox('getValues');
+      if (utils.array.all(curValues, function(item) {
+        return !item;
+      })) {
+        $(element).combobox('setValues', []);
+      }
       values = valueAccessor();
       if ((values() == null) || values().length === 0) {
         curValues = $(element).combobox('getValues');
-        if (utils.array.all(curValues, function(item) {
-          return !!item;
-        })) {
-          values(curValues);
-        }
+        values(curValues);
       }
       options = $(element).combobox('options');
       options.multiple = true;
@@ -283,9 +296,7 @@
     update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
       var values;
       values = ko.utils.unwrapObservable(valueAccessor());
-      if (utils.array.sequenceEqual($(element).combobox('getValues'), values, utils.identity)) {
-        return $(element).combobox('setValues', values);
-      }
+      return $(element).combobox('setValues', values);
     }
   };
 
@@ -394,7 +405,7 @@
       oriValues = $(element).combogrid('getValues');
       options = $(element).combogrid("options");
       if (values != null) {
-        if (utils.array.sequenceEqual(oriValues, values, utils.identity)) {
+        if (!utils.array.sequenceEqual(oriValues, values, utils.identity)) {
           return $(element).combogrid('setValues', values);
         }
       } else {

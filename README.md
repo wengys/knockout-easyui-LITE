@@ -18,8 +18,7 @@
 每个绑定都以“照旧如旧（AS-IS）”的原则编写。除非有特别注明，否则工作方式尽量接近原生的easyui操作。且主要关注于日常表单组件的双向绑定，高级功能（如编辑功能）暂不提供支持
 
 ## 项目状态
-当前版本：0.5.0。
-
+当前版本：0.5.1。 还存在部分BUG，demo也不完整
 
 当前已编写组件（后面为可用绑定）：
 
@@ -34,6 +33,11 @@
  1.  datetimebox：datetimeboxValue
  1.  calendar：calendarValue
  1.  datagrid：datagridSource，datagridValues，datagridValue
+
+## 依赖
+
+本项目基于以下版本的库开发，不过高版本的库应该没问题。
+如果发现版本依赖问题，请[联系我](mailto:wengyuansheng@hotmail.com)
 
 ## 编译
 

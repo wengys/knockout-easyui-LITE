@@ -14,7 +14,7 @@ var paths = {
     srcs: [
         "src/util/*.coffee",
         "src/*.coffee"
-        //  "src/calendar.coffee"
+        // "src/combobox.coffee"
      ],
     target: "build",
     outputFileName: "knockout-easyui"

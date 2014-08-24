@@ -22,6 +22,13 @@
             <input type="radio" data-bind="checked:$root.value,checkedValue:$data.code">
             <label data-bind="text:name"></label>
         </div>
+        <div>
+            <input class="width" data-bind="comboboxSource:source,comboboxValues:values,easyuiOptions:viewSettings" />
+        </div>
+        <div data-bind="foreach:source">
+            <input type="checkbox" data-bind="checked:$root.values,checkedValue:$data.code">
+            <label data-bind="text:name"></label>
+        </div>
     </div>
     <div class="model-display" data-bind="html:modelInfo"></div>
     <script>
@@ -32,7 +39,7 @@
                 { code: "3", name: 'CSS' }
             ]),
             value: ko.observable("2"),
-
+            values: ko.observableArray(),
             viewSettings: {
                 valueField: 'code',
                 textField: 'name'
