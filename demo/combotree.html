@@ -6,7 +6,7 @@
     <script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="scripts/knockout-3.1.0.js"></script>
-    <script src="../knockout-easyui-0.5.0.min.js"></script>
+    <script src="../knockout-easyui.min.js"></script>
     <style>
         .width {
             width: 200px;
@@ -16,37 +16,52 @@
 <body>
     <div class="content">
         <div>
-            <input class="width" data-bind="combogridSource:source,combogridValue:value,easyuiOptions:viewSettings" />
-        </div>
-        <div data-bind="foreach:source">
-            <input type="radio" data-bind="checked:$root.value,checkedValue:$data.code">
-            <label data-bind="text:name"></label>
+            <input class="width" data-bind="combotreeSource:source,combotreeValue:value,easyuiOptions:viewSettings" />
         </div>
         <div>
-            <input class="width" data-bind="combogridSource:source,combogridValues:values,easyuiOptions:viewSettings" />
+            <input type="radio" data-bind="checked:$root.value,checkedValue:'1'">
+            <label>Languages</label>
+            <input type="radio" data-bind="checked:$root.value,checkedValue:'10'">
+            <label>C++</label>
+            <input type="radio" data-bind="checked:$root.value,checkedValue:'11'">
+            <label>C#</label>
+            <input type="radio" data-bind="checked:$root.value,checkedValue:'12'">
+            <label>Java</label>
         </div>
-        <div data-bind="foreach:source">
-            <input type="checkbox" data-bind="checked:$root.values,checkedValue:$data.code">
-            <label data-bind="text:name"></label>
+        <div>
+            <input class="width" data-bind="combotreeSource:source,combotreeValues:values,easyuiOptions:viewSettings" />
+        </div>
+        <div>
+            <input type="checkbox" data-bind="checked:$root.values,checkedValue:'1'">
+            <label>Languages</label>
+            <input type="checkbox" data-bind="checked:$root.values,checkedValue:'10'">
+            <label>C++</label>
+            <input type="checkbox" data-bind="checked:$root.values,checkedValue:'11'">
+            <label>C#</label>
+            <input type="checkbox" data-bind="checked:$root.values,checkedValue:'12'">
+            <label>Java</label>
         </div>
     </div>
     <div class="model-display" data-bind="html:modelInfo"></div>
     <script>
         var model = {
-            source: ko.observableArray([
-                { code: "1", name: 'HTML' },
-                { code: "2", name: 'JAVASCRIPT' },
-                { code: "3", name: 'CSS' }
-            ]),
-            value: ko.observable("2"),
+            source: ko.observableArray([{
+                id: 1,
+                text: 'Languages',
+                children: [{
+                    id: 10,
+                    text: 'C++'
+                }, {
+                    id: 11,
+                    text: 'C#'
+                }, {
+                    id: 12,
+                    text: 'Java'
+                }]
+            }]),
+            value: ko.observable(10),
             values: ko.observableArray(),
             viewSettings: {
-                idField:'code',
-                textField:'name',
-                columns:[[
-                    {field:'code',title:'Code',width:60},
-                    {field:'name',title:'Name',width:100}
-                ]]
             }
         }
 
@@ -59,5 +74,4 @@
         ko.applyBindings(model)
     </script>
 </body>
-
 </html>
