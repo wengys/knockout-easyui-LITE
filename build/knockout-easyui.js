@@ -354,7 +354,7 @@
         return item[options.idField];
       };
       currentValues = $(element).combogrid('grid').datagrid('getData').rows;
-      if (utils.array.sequenceEqual(currentValues, values, idSelector)) {
+      if (!utils.array.sequenceEqual(currentValues, values, idSelector)) {
         return $(element).combogrid('grid').datagrid('loadData', values);
       }
     }
@@ -366,6 +366,12 @@
       utils.component.ensureComponentInited(element, "combogrid", allBindingsAccessor, {
         multiple: true
       });
+      curValues = $(element).combogrid('getValues');
+      if (utils.array.all(curValues, function(item) {
+        return !item;
+      })) {
+        $(element).combogrid('setValues', []);
+      }
       values = valueAccessor();
       if ((values() == null) || values().length === 0) {
         curValues = $(element).combogrid('getValues');
