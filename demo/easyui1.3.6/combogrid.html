@@ -6,24 +6,24 @@
     <script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="scripts/knockout-3.1.0.js"></script>
-    <script src="../knockout-easyui.min.js"></script>
+    <script src="../../knockout-easyui.min.js"></script>
     <style>
         .width {
-            width: 100px;
+            width: 200px;
         }
     </style>
 </head>
 <body>
     <div class="content">
         <div>
-            <input class="width" data-bind="comboboxSource:source,comboboxValue:value,easyuiOptions:viewSettings" />
+            <input class="width" data-bind="combogridSource:source,combogridValue:value,easyuiOptions:viewSettings" />
         </div>
         <div data-bind="foreach:source">
             <input type="radio" data-bind="checked:$root.value,checkedValue:$data.code">
             <label data-bind="text:name"></label>
         </div>
         <div>
-            <input class="width" data-bind="comboboxSource:source,comboboxValues:values,easyuiOptions:viewSettings" />
+            <input class="width" data-bind="combogridSource:source,combogridValues:values,easyuiOptions:viewSettings" />
         </div>
         <div data-bind="foreach:source">
             <input type="checkbox" data-bind="checked:$root.values,checkedValue:$data.code">
@@ -41,8 +41,12 @@
             value: ko.observable("2"),
             values: ko.observableArray(),
             viewSettings: {
-                valueField: 'code',
-                textField: 'name'
+                idField:'code',
+                textField:'name',
+                columns:[[
+                    {field:'code',title:'Code',width:60},
+                    {field:'name',title:'Name',width:100}
+                ]]
             }
         }
 
