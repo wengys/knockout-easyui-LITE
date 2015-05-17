@@ -1,61 +1,85 @@
 var gulp = require('gulp');
-var coffee = require('gulp-coffee');
+var typescript=require("typescript")
+var ts = require('gulp-typescript');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var gutil = require('gulp-util');
-var clean = require('gulp-clean');
-var filter = require('gulp-filter');
+var del = require("del");
 var runSequence = require('run-sequence');
-var coffeelint = require('gulp-coffeelint');
 var plumber = require('gulp-plumber');
+var sourcemaps = require('gulp-sourcemaps');
 
 var paths = {
+    startFragment: "src/util/start.js.fragment",
     srcs: [
-        "src/util/*.coffee",
-        "src/*.coffee"
-        // "src/combobox.coffee"
-     ],
+        "src/util/*.ts",
+         "src/*.ts"
+        //,"src/datagrid.ts"
+    ],
+    endFragment: "src/util/end.js.fragment",
     target: "build",
     outputFileName: "knockout-easyui"
 }
 
-var jsFilter = filter("**/*.js");
-
-gulp.task("clean", function() {
-    return gulp.src(paths.target, {
-        read: false
-    }).pipe(clean())
+gulp.task('clean', function(cb) {
+    del(paths.target+"/*", cb);
 });
 
-gulp.task("lint", function() {
+gulp.task("compile", function() {
     return gulp.src(paths.srcs)
-        .pipe(coffeelint())
-        .pipe(coffeelint.reporter())
+        .pipe(ts({
+            target: "ES3",
+            declarationFiles: false,
+            noExternalResolve: false,
+            removeComments: true,
+            sortOutput: true,
+            typescript:typescript
+        })).on("error", gutil.log)
+        .pipe(concat(paths.outputFileName + ".debug.js"))
+        .pipe(gulp.dest(paths.target))
+})
+
+gulp.task("compile_amd", ["compile"], function() {
+    return gulp.src([
+            paths.startFragment,
+            paths.target + "/" + paths.outputFileName + ".debug.js",
+            paths.endFragment
+        ])
+        .pipe(concat(paths.outputFileName + ".amd.debug.js"))
+        .pipe(gulp.dest(paths.target))
+})
+
+gulp.task("uglify",["compile"],  function() {
+    return gulp.src(paths.target + "/" + paths.outputFileName + ".debug.js")
+        .pipe(sourcemaps.init())
+        .pipe(uglify({}))
+        .pipe(rename(function(path){
+            path.basename=paths.outputFileName
+        }))
+        .pipe(sourcemaps.write("./",{ includeContent:true,sourceRoot:"./src"}))
+        .pipe(gulp.dest(paths.target))
+})
+
+gulp.task("uglify_amd",["compile_amd"],  function() {
+    return gulp.src(paths.target + "/" + paths.outputFileName + ".amd.debug.js")
+        .pipe(sourcemaps.init())
+        .pipe(uglify({}))
+        .pipe(rename(function(path){
+            path.basename=paths.outputFileName + ".amd"
+        }))
+        .pipe(sourcemaps.write("./",{ includeContent:true,sourceRoot:"./src"}))
+        .pipe(gulp.dest(paths.target))
+})
+
+gulp.task("default", function() {
+    runSequence("clean", ["uglify","uglify_amd"]);
 });
 
 gulp.task("build", function() {
-    return gulp.src(paths.srcs)
-        .pipe(plumber())
-        .pipe(concat(paths.outputFileName + ".coffee"))
-        .pipe(gulp.dest(paths.target))
-        .pipe(coffee()).on("error", gutil.log)
-        .pipe(gulp.dest(paths.target))
-        .pipe(jsFilter)
-        .pipe(uglify({
-        }))
-        .pipe(rename(function(path) {
-            if (path.extname === ".js") {
-                path.extname = ".min.js";
-            }
-        }))
-        .pipe(gulp.dest(paths.target))
+    runSequence("clean", "compile_amd");
 });
 
-gulp.task("default", function() {
-    runSequence("clean", ["lint", "build"]);
-});
-
-gulp.task("watch",function() {
-    gulp.watch(paths.srcs,["build"]); 
+gulp.task("watch", function() {
+    gulp.watch(paths.srcs, ["build"]);
 });

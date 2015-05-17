@@ -9,25 +9,17 @@
     <script src="../../build/knockout-easyui.debug.js"></script>
     <style>
         .width {
-            width: 100px;
+            width: 200px;
         }
     </style>
 </head>
 <body>
     <div class="content">
         <div>
-            <input class="width" data-bind="comboboxSource:source,comboboxValue:value,easyuiOptions:viewSettings" />
-        </div>
-        <div data-bind="foreach:source">
-            <input type="radio" data-bind="checked:$root.value,checkedValue:$data.code">
-            <label data-bind="text:name"></label>
+            <table data-bind="datagridSource:source,datagridValues:values,easyuiOptions:viewSettings"></table>
         </div>
         <div>
-            <input class="width" data-bind="comboboxSource:source,comboboxValues:values,easyuiOptions:viewSettings" />
-        </div>
-        <div data-bind="foreach:source">
-            <input type="checkbox" data-bind="checked:$root.values,checkedValue:$data.code">
-            <label data-bind="text:name"></label>
+            <table data-bind="datagridSource:source,datagridValue:value,easyuiOptions:viewSettings"></table>
         </div>
     </div>
     <div class="model-display" data-bind="html:modelInfo"></div>
@@ -41,11 +33,24 @@
             value: ko.observable("2"),
             values: ko.observableArray(),
             viewSettings: {
-                valueField: 'code',
+                idField: 'code',
                 textField: 'name',
-                onChange: function (newValue, oldValue) {
-                    console.log("native onChange", newValue, oldValue)
-                }
+                columns: [[
+                    { field: 'code', title: 'Code', width: 60 },
+                    { field: 'name', title: 'Name', width: 100 }
+                ]],
+                onSelect: function (newValue, oldValue) {
+                    console.log("native onSelect", newValue, oldValue)
+                },
+                onUnselect: function (newValue, oldValue) {
+                    console.log("native onUnselect", newValue, oldValue)
+                },
+                onSelectAll: function (newValue, oldValue) {
+                    console.log("native onSelectAll", newValue, oldValue)
+                },
+                onUnselectAll: function (newValue, oldValue) {
+                    console.log("native onUnselectAll", newValue, oldValue)
+                },
             }
         }
 

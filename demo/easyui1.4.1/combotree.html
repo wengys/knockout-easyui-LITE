@@ -6,7 +6,7 @@
     <script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="scripts/knockout-3.1.0.js"></script>
-    <script src="../../knockout-easyui.min.js"></script>
+    <script src="../../build/knockout-easyui.debug.js"></script>
     <style>
         .width {
             width: 200px;
@@ -62,8 +62,19 @@
             value: ko.observable(10),
             values: ko.observableArray(),
             viewSettings: {
+                onChange: function (newValue, oldValue) {
+                    console.log("native onChange", newValue, oldValue)
+                }
             }
         }
+
+        model.value.subscribe(function () {
+            console.log("value change", arguments)
+        })
+
+        model.values.subscribe(function () {
+            console.log("values change", arguments)
+        })
 
         model.modelInfo = ko.computed(function () {
             var info = ko.toJS(model)

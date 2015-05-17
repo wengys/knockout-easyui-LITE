@@ -9,40 +9,19 @@
     <script src="../../build/knockout-easyui.debug.js"></script>
     <style>
         .width {
-            width: 100px;
+            width: 200px;
         }
     </style>
 </head>
 <body>
     <div class="content">
-        <div>
-            <input class="width" data-bind="comboboxSource:source,comboboxValue:value,easyuiOptions:viewSettings" />
-        </div>
-        <div data-bind="foreach:source">
-            <input type="radio" data-bind="checked:$root.value,checkedValue:$data.code">
-            <label data-bind="text:name"></label>
-        </div>
-        <div>
-            <input class="width" data-bind="comboboxSource:source,comboboxValues:values,easyuiOptions:viewSettings" />
-        </div>
-        <div data-bind="foreach:source">
-            <input type="checkbox" data-bind="checked:$root.values,checkedValue:$data.code">
-            <label data-bind="text:name"></label>
-        </div>
+        <input data-bind="datetimeboxValue:value,easyuiOptions:viewSettings" class="width" required="required">
     </div>
     <div class="model-display" data-bind="html:modelInfo"></div>
     <script>
         var model = {
-            source: ko.observableArray([
-                { code: "1", name: 'HTML' },
-                { code: "2", name: 'JAVASCRIPT' },
-                { code: "3", name: 'CSS' }
-            ]),
-            value: ko.observable("2"),
-            values: ko.observableArray(),
+            value: ko.observable(),
             viewSettings: {
-                valueField: 'code',
-                textField: 'name',
                 onChange: function (newValue, oldValue) {
                     console.log("native onChange", newValue, oldValue)
                 }
@@ -51,10 +30,6 @@
 
         model.value.subscribe(function () {
             console.log("value change", arguments)
-        })
-
-        model.values.subscribe(function () {
-            console.log("values change", arguments)
         })
 
         model.modelInfo = ko.computed(function () {

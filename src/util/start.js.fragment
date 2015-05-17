@@ -1,0 +1,13 @@
+﻿/// <reference path="../src/typings/requirejs/require.d.ts" />
+/// <reference path="../src/typings/jquery/jquery.d.ts" />
+/// <reference path="../src/typings/knockout/knockout.d.ts" />
+
+(function (factory) {
+    if (window.define && window.define.amd) {
+        window.define(["knockout", "jquery", "jquery.jeasyui"], function (ko, $) {
+            factory(ko, $)
+        });
+    } else {
+        factory(window["ko"], window["jQuery"]);
+    }
+})(function(ko,$){
