@@ -11,7 +11,7 @@ ko.bindingHandlers["sliderValue"] = <KnockoutBindingHandler>{
         var options = $(element)["slider"]('options')
         var onChange = options.onChange
         options.onChange = function (newValue, oldValue) {
-            if (newValue != value()) {
+            if (newValue !== value()) {
                 value(newValue)
                 if (onChange) {
                     onChange.apply(this, arguments)
@@ -22,7 +22,7 @@ ko.bindingHandlers["sliderValue"] = <KnockoutBindingHandler>{
     },
     update: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) => {
         var value = ko.utils.unwrapObservable(valueAccessor())
-        if ($(element)["slider"]('getValue') != value)
+        if ($(element)["slider"]('getValue') !== value)
             $(element)["slider"]('setValue', value)
     }
 }

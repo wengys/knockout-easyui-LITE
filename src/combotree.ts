@@ -95,7 +95,7 @@ ko.bindingHandlers["combotreeValue"] = <KnockoutBindingHandler>{
         var refreshValueFun = (oriFun) =>
             function () {
                 var newValue = $(element)["combotree"]('getValue')
-                if (value != newValue) {
+                if (value !== newValue) {
                     value(newValue)
                     if (oriFun) {
                         oriFun.apply($(element), arguments)
@@ -104,7 +104,7 @@ ko.bindingHandlers["combotreeValue"] = <KnockoutBindingHandler>{
             }
         var options = $(element)["combotree"]('options')
         var comboOptions = $(element)["combo"]('options')
-        if (options.multiple == true) {
+        if (options.multiple === true) {
             options.onChange = refreshValueFun(options.onChange)
             options.multiple = false
             $(element)["combotree"](options)
@@ -119,7 +119,7 @@ ko.bindingHandlers["combotreeValue"] = <KnockoutBindingHandler>{
         var oriValue = $(element)["combotree"]('getValue')
         //如果未修改，则不必更新
         if (value) {
-            if (value != oriValue) {
+            if (value !== oriValue) {
                 $(element)["combotree"]('setValue', value)
             }
         }

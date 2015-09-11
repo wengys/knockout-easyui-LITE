@@ -22,7 +22,7 @@ ko.bindingHandlers["dateboxValue"] = <KnockoutBindingHandler>{
     },
     update: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) => {
         var value = ko.utils.unwrapObservable(valueAccessor())
-        if ($(element)["datebox"]('getValue') != value) {
+        if ($(element)["datebox"]('getValue') !== value) {
             $(element)["datebox"]('setValue', value)
         }
     }

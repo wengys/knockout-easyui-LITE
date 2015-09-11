@@ -14,7 +14,7 @@ ko.bindingHandlers["numberspinnerValue"] = <KnockoutBindingHandler>{
         options.onChange = function (newValue, oldValue) {
             newValue = parseFloat(newValue)
             value = valueAccessor()
-            if (value() != newValue) {
+            if (value() !== newValue) {
                 value(newValue)
                 utils.func.safeApply(onChange, $(element), arguments);
             }
@@ -27,7 +27,7 @@ ko.bindingHandlers["numberspinnerValue"] = <KnockoutBindingHandler>{
         var newActualValue = $(element)["numberspinner"]('getValue')
         if (newActualValue) {
             $(element).removeClass("validatebox-invalid")
-            if (newActualValue != value) {
+            if (newActualValue !== value) {
                 valueAccessor()(parseFloat(newActualValue))
             }
         }

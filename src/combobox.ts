@@ -25,7 +25,7 @@ ko.bindingHandlers["comboboxValues"] = {
             $(element)["combobox"]('setValues', [])
         }
         var values = valueAccessor();
-        if (!values() || values().length == 0) {//如果没有默认值，则初始化为当前combobox的值
+        if (!values() || values().length === 0) {//如果没有默认值，则初始化为当前combobox的值
             curValues = $(element)["combobox"]('getValues')
             values(curValues)
         }
@@ -72,7 +72,7 @@ ko.bindingHandlers["comboboxValue"] = {
     },
     update: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) => {
         var value = ko.utils.unwrapObservable(valueAccessor())
-        if ($(element)["combobox"]('getValue') != value)
+        if ($(element)["combobox"]('getValue') !== value)
             $(element)["combobox"]('setValue', value)
     }
 }

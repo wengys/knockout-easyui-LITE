@@ -64,7 +64,7 @@
                 var invalidValueIndexs = []
                 utils.array.each(values, (value, index, vs) => {//找到未选中条目，或已删除条目
                     var [rowIndex, item] = utils.array.findIndexTuple(data.rows, (item) => item[idField] == value[idField])
-                    if (item != value) {
+                    if (item !== value) {
                         if (item) {//如果只有id相同，则同步为datagrid中的版本
                             values[index] = item
                         } else {//如果没有找到，则表明此条已删除
@@ -108,7 +108,7 @@
             var refreshValueFun = (oriFun) =>
                 function () {
                     var selected = $(element)["datagrid"]('getSelected')
-                    if (selected != value()) {
+                    if (selected !== value()) {
                         value(selected);
                     }
                     utils.func.safeApply(oriFun, $(element), arguments)
@@ -139,8 +139,8 @@
                     return
                 var curValue = $(element)["datagrid"]('getSelected')
                 if (curValue) {
-                    if (curValue[idField] == value()[idField]) { //如果实际上没有修改，跳过
-                        if (curValue != value()) {//将value设置为同一个对象
+                    if (curValue[idField] === value()[idField]) { //如果实际上没有修改，跳过
+                        if (curValue !== value()) {//将value设置为同一个对象
                             value(curValue)
                         }
                         return;
@@ -148,7 +148,7 @@
                 }
 
                 var data = $(element)["datagrid"]('getData')
-                var [rowIndex, item] = utils.array.findIndexTuple(data.rows, (item) => item[idField] == value()[idField])
+                var [rowIndex, item] = utils.array.findIndexTuple(data.rows, (item) => item[idField] === value()[idField])
                 if (rowIndex < 0) {//无对应条目
                     value(null);
                 } else {

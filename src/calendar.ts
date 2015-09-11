@@ -25,7 +25,7 @@ ko.bindingHandlers["calendarValue"] = <KnockoutBindingHandler>{
     },
     update: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) => {
         var value = ko.utils.unwrapObservable(valueAccessor())
-        if ($(element)["calendar"]('options').current != value)
+        if ($(element)["calendar"]('options').current !== value)
             $(element)["calendar"]('moveTo', value)
     }
 }

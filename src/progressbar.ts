@@ -13,7 +13,7 @@ ko.bindingHandlers["progressbarValue"] = <KnockoutBindingHandler>{
         options.onChange = function (newValue, oldValue) {
             newValue = parseFloat(newValue)
             var value = valueAccessor()
-            if (value() != newValue) {
+            if (value() !== newValue) {
                 value(newValue)
                 if (onChange) {
                     onChange.apply(this, arguments)
@@ -26,7 +26,7 @@ ko.bindingHandlers["progressbarValue"] = <KnockoutBindingHandler>{
         var value = ko.utils.unwrapObservable(valueAccessor())
         $(element)["progressbar"]('setValue', value)
         var updatedValue = $(element)["progressbar"]('getValue')
-        if (value != updatedValue) {
+        if (value !== updatedValue) {
             valueAccessor()(updatedValue)
         }
     }

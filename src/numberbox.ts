@@ -14,7 +14,7 @@ ko.bindingHandlers["numberBoxValue"] = <KnockoutBindingHandler>{
         options.onChange = function (newValue, oldValue) {
             newValue = parseFloat(newValue)
             value = valueAccessor()
-            if (value() != newValue) {
+            if (value() !== newValue) {
                 value(newValue)
                 utils.func.safeApply(onChange, $(element), arguments);
             }

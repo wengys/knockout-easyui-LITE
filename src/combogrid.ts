@@ -105,7 +105,7 @@ ko.bindingHandlers["combogridValue"] = <KnockoutBindingHandler>{
         var options = $(element)["combogrid"]("options")
         //如果未修改，则不必更新
         if (value) {
-            if (oriValue != value)
+            if (oriValue !== value)
                 $(element)["combogrid"]('setValue', value)
         }
         else {
