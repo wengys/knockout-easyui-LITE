@@ -16,7 +16,7 @@
 <body>
     <div class="content">
         <div>
-            <input class="width" data-bind="comboboxSource:source,comboboxValue:value,easyuiOptions:viewSettings" />
+            <input class="width" data-bind="comboboxSource:source,comboboxValue:value,comboboxText:text,easyuiOptions:viewSettings" />
         </div>
         <div data-bind="foreach:source">
             <input type="radio" data-bind="checked:$root.value,checkedValue:$data.code">
@@ -39,6 +39,7 @@
                 { code: "3", name: 'CSS' }
             ]),
             value: ko.observable("2"),
+            text: ko.observable(),
             values: ko.observableArray(),
             viewSettings: {
                 valueField: 'code',

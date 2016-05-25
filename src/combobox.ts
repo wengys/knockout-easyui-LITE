@@ -76,3 +76,38 @@ ko.bindingHandlers["comboboxValue"] = {
             $(element)["combobox"]('setValue', value)
     }
 }
+ko.bindingHandlers["comboboxText"] = {
+    init: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) => {
+        utils.component.ensureComponentInited(element, "combobox", allBindingsAccessor)
+        var value = valueAccessor()
+        if (!value()) {//如果没有默认值，则初始化为当前combobox的值
+            var curValue = $(element)["combobox"]('getText')
+            if (curValue) {
+                value(curValue)
+            }
+        }
+        var options = $(element)["combobox"]('options')
+        var comboOptions = $(element)["combo"]('options')
+        options.multiple = false
+        var refreshValueFun = (oriFun) =>
+            function () {
+                setTimeout(()=>{
+                    var combo = $.data(element).combo;
+                    if(combo.hasOwnProperty('previousText')){ //兼容1.3与1.4
+                        value(combo.previousText)
+                    } else {
+                        value($.data(element).combo.previousValue)
+                    }
+                },1)
+                if (oriFun)
+                    oriFun.apply($(element), arguments)
+            }
+        comboOptions.onChange = refreshValueFun(comboOptions.onChange)
+        utils.component.bindDisposeEvent(element, "combobox")
+    },
+    update: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) => {
+        var value = ko.utils.unwrapObservable(valueAccessor())
+        if ($(element)["combobox"]('getText') !== value)
+            $(element)["combobox"]('setText', value)
+    }
+}

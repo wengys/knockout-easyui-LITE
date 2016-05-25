@@ -11,14 +11,12 @@
         factory(window["ko"], window["jQuery"]);
     }
 })(function(ko,$){
-/// <reference path="../typings/knockout/knockout.d.ts" />
 ko.bindingHandlers["easyuiOptions"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
-    easyuiOptionsVersion: '0.6.0'
+    easyuiOptionsVersion: '0.6.1'
 };
 
-/// <reference path="../typings/jquery/jquery.d.ts" />
 var utils;
 (function (utils) {
     var object;
@@ -237,8 +235,6 @@ var utils;
     utils.id = function (item) { return item; };
 })(utils || (utils = {}));
 
-/// <reference path="typings/knockout/knockout.d.ts" />
-/// <reference path="util/utils.ts" />
 ko.bindingHandlers["calendarValue"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         utils.component.ensureComponentInited(element, "calendar", allBindingsAccessor);
@@ -344,6 +340,43 @@ ko.bindingHandlers["comboboxValue"] = {
         var value = ko.utils.unwrapObservable(valueAccessor());
         if ($(element)["combobox"]('getValue') !== value)
             $(element)["combobox"]('setValue', value);
+    }
+};
+ko.bindingHandlers["comboboxText"] = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        utils.component.ensureComponentInited(element, "combobox", allBindingsAccessor);
+        var value = valueAccessor();
+        if (!value()) {
+            var curValue = $(element)["combobox"]('getText');
+            if (curValue) {
+                value(curValue);
+            }
+        }
+        var options = $(element)["combobox"]('options');
+        var comboOptions = $(element)["combo"]('options');
+        options.multiple = false;
+        var refreshValueFun = function (oriFun) {
+            return function () {
+                setTimeout(function () {
+                    var combo = $.data(element).combo;
+                    if (combo.hasOwnProperty('previousText')) {
+                        value(combo.previousText);
+                    }
+                    else {
+                        value($.data(element).combo.previousValue);
+                    }
+                }, 1);
+                if (oriFun)
+                    oriFun.apply($(element), arguments);
+            };
+        };
+        comboOptions.onChange = refreshValueFun(comboOptions.onChange);
+        utils.component.bindDisposeEvent(element, "combobox");
+    },
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        if ($(element)["combobox"]('getText') !== value)
+            $(element)["combobox"]('setText', value);
     }
 };
 
@@ -460,8 +493,6 @@ ko.bindingHandlers["combogridValue"] = {
     }
 };
 
-/// <reference path="typings/knockout/knockout.d.ts" />
-/// <reference path="util/utils.ts" />
 ko.bindingHandlers["combotreeSource"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         var $combotree = utils.component.initComponent(element, "combotree", allBindingsAccessor);
@@ -586,8 +617,6 @@ ko.bindingHandlers["combotreeValue"] = {
     }
 };
 
-/// <reference path="typings/knockout/knockout.d.ts" />
-/// <reference path="util/utils.ts" />
 (function () {
     var bindDatagridDisposeEvent = function (element) {
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
@@ -751,8 +780,6 @@ ko.bindingHandlers["combotreeValue"] = {
     };
 })();
 
-/// <reference path="typings/knockout/knockout.d.ts" />
-/// <reference path="util/utils.ts" />
 ko.bindingHandlers["dateboxValue"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         utils.component.ensureComponentInited(element, "datebox", allBindingsAccessor);
@@ -781,8 +808,6 @@ ko.bindingHandlers["dateboxValue"] = {
     }
 };
 
-/// <reference path="typings/knockout/knockout.d.ts" />
-/// <reference path="util/utils.ts" />
 ko.bindingHandlers["datetimeboxValue"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         utils.component.ensureComponentInited(element, "datetimebox", allBindingsAccessor);
@@ -811,8 +836,6 @@ ko.bindingHandlers["datetimeboxValue"] = {
     }
 };
 
-/// <reference path="typings/knockout/knockout.d.ts" />
-/// <reference path="util/utils.ts" />
 ko.bindingHandlers["numberBoxValue"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         utils.component.ensureComponentInited(element, "numberbox", allBindingsAccessor);
@@ -847,8 +870,6 @@ ko.bindingHandlers["numberBoxValue"] = {
     }
 };
 
-/// <reference path="typings/knockout/knockout.d.ts" />
-/// <reference path="util/utils.ts" />
 ko.bindingHandlers["numberspinnerValue"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         utils.component.ensureComponentInited(element, "numberspinner", allBindingsAccessor);
@@ -886,8 +907,6 @@ ko.bindingHandlers["numberspinnerValue"] = {
     }
 };
 
-/// <reference path="typings/knockout/knockout.d.ts" />
-/// <reference path="util/utils.ts" />
 ko.bindingHandlers["progressbarValue"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         utils.component.ensureComponentInited(element, "progressbar", allBindingsAccessor);
@@ -919,8 +938,6 @@ ko.bindingHandlers["progressbarValue"] = {
     }
 };
 
-/// <reference path="typings/knockout/knockout.d.ts" />
-/// <reference path="util/utils.ts" />
 ko.bindingHandlers["sliderValue"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         utils.component.ensureComponentInited(element, "slider", allBindingsAccessor);

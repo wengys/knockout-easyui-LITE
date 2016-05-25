@@ -1,3 +1,5 @@
+V0.6.1:
+	增加comboboxText绑定
 V0.6.0：
 	改为Typescript编写
 	修正easyui1.4兼容性问题
