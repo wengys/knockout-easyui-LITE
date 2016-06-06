@@ -33,6 +33,7 @@
  1.  datetimebox：datetimeboxValue
  1.  calendar：calendarValue
  1.  datagrid：datagridSource，datagridValues，datagridValue
+ 1.  window: window
 
 ## 依赖
 
@@ -75,6 +76,8 @@
  * （组件名）Values：与当前选中值组的双向绑定，绑定到ko.observableArray()类型的字段上。与Value绑定互斥
 
  * （组件名）Text：与当前界面上显示的字符双向绑定，绑定到ko.observable()类型的字段上。与Values绑定互斥，只支持从Value到Text的单向绑定以及与模型中Text字段的双向绑定
+
+ *  window：此绑定直接绑定到boolean值上，控制窗口的打开与关闭
 
 初始化easyui组件时，除了原有的在html标签中采用`data-options`设置参数的方式外，
 额外支持`easyuiOptions`绑定。此绑定单向绑定到一个JavaScript对象上，初始化组件时将采用其中的设置（参见源码中的DEMO/demo.html）

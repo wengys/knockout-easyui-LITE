@@ -14,7 +14,7 @@
 ko.bindingHandlers["easyuiOptions"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
-    easyuiOptionsVersion: '0.6.1'
+    easyuiOptionsVersion: '0.6.2'
 };
 
 var utils;
@@ -961,6 +961,23 @@ ko.bindingHandlers["sliderValue"] = {
         var value = ko.utils.unwrapObservable(valueAccessor());
         if ($(element)["slider"]('getValue') !== value)
             $(element)["slider"]('setValue', value);
+    }
+};
+
+ko.bindingHandlers["window"] = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        setTimeout(function () {
+            utils.component.ensureComponentInited(element, "window", allBindingsAccessor, { "closed": true });
+            ko.computed(function () {
+                var value = ko.unwrap(valueAccessor());
+                if (value) {
+                    $(element)["window"]('open');
+                }
+                else {
+                    $(element)["window"]('close');
+                }
+            });
+        }, 1);
     }
 };
 
