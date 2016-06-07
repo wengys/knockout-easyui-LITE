@@ -5,6 +5,9 @@ ko.bindingHandlers["window"] = <KnockoutBindingHandler>{
     init: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) => {
         setTimeout(function(){
             utils.component.ensureComponentInited(element, "window", allBindingsAccessor,{"closed":true});
+            $.data(element).panel.options.onBeforeClose = function () {
+                valueAccessor()(false);
+            }
             ko.computed(function(){
                 var value = ko.unwrap(valueAccessor())
                 if (value) {
