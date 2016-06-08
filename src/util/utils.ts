@@ -108,7 +108,7 @@ module utils {
                 options = options()
             }
             if (extOptions) {
-                $.extend(options, extOptions)
+                options=$.extend({},extOptions,options)
             }
             $(element)[componentTypeName](options)
             return $(element)
