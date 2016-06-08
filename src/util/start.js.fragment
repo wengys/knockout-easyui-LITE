@@ -4,7 +4,7 @@
 
 (function (factory) {
     if (window.define && window.define.amd) {
-        window.define(["knockout", "jquery", "jquery.jeasyui"], function (ko, $) {
+        window.define(["knockout", "jquery", "jquery.easyui"], function (ko, $) {
             factory(ko, $)
         });
     } else {

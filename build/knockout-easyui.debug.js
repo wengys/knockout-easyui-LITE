@@ -111,7 +111,7 @@ var utils;
                 options = options();
             }
             if (extOptions) {
-                $.extend(options, extOptions);
+                options = $.extend({}, extOptions, options);
             }
             $(element)[componentTypeName](options);
             return $(element);
@@ -954,7 +954,21 @@ ko.bindingHandlers["sliderValue"] = {
 ko.bindingHandlers["window"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         setTimeout(function () {
-            utils.component.ensureComponentInited(element, "window", allBindingsAccessor, { "closed": true });
+            utils.component.ensureComponentInited(element, "window", allBindingsAccessor, {
+                "closed": true,
+                'title': " ",
+                'height': 300,
+                'width': 600,
+                'collapsible': false,
+                'minimizable': false,
+                'maximizable': false,
+                'resizable': false,
+                "iframeFix": true,
+                'position': { at: 'center', collision: 'fit', my: 'center' }
+            });
+            $.data(element).panel.options.onBeforeClose = function () {
+                valueAccessor()(false);
+            };
             ko.computed(function () {
                 var value = ko.unwrap(valueAccessor());
                 if (value) {
