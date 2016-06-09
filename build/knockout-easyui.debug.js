@@ -1,7 +1,7 @@
 ko.bindingHandlers["easyuiOptions"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
-    easyuiOptionsVersion: '0.6.2'
+    easyuiOptionsVersion: '0.6.3'
 };
 
 var utils;
@@ -111,7 +111,7 @@ var utils;
                 options = options();
             }
             if (extOptions) {
-                $.extend(options, extOptions);
+                options = $.extend({}, extOptions, options);
             }
             $(element)[componentTypeName](options);
             return $(element);
@@ -955,6 +955,9 @@ ko.bindingHandlers["window"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         setTimeout(function () {
             utils.component.ensureComponentInited(element, "window", allBindingsAccessor, { "closed": true });
+            $.data(element).panel.options.onBeforeClose = function () {
+                valueAccessor()(false);
+            };
             ko.computed(function () {
                 var value = ko.unwrap(valueAccessor());
                 if (value) {
