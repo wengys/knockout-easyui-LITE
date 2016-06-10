@@ -1,7 +1,7 @@
 /// <reference path="typings/knockout/knockout.d.ts" />
 /// <reference path="util/utils.ts" />
 
-ko.bindingHandlers["numberBoxValue"] = <KnockoutBindingHandler>{
+ko.bindingHandlers["numberboxValue"] = <KnockoutBindingHandler>{
     init: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) => {
         utils.component.ensureComponentInited(element, "numberbox", allBindingsAccessor)
         var value = valueAccessor()

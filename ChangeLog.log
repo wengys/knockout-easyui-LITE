@@ -1,11 +1,17 @@
+﻿V0.7.0:
+	增加textboxValue绑定
+	更改numberboxValue绑定名称，统一命名风格
+V0.6.3:
+	增加window绑定
+	修正默认参数覆盖用户设置问题
 V0.6.1:
-	����comboboxText��
-V0.6.0��
-	��ΪTypescript��д
-	����easyui1.4����������
-	�����ദ�¼��ظ���������
-	����gulp����ʱ�޷���ȷ����sourcemap����
-V0.5.1��
-	����comboϵ��values����ĳЩ��������[""]ΪĬ��ֵ������
-V0.5.0��
-	�״η���
+	增加comboboxText绑定
+V0.6.0：
+	改为Typescript编写
+	修正easyui1.4兼容性问题
+	修正多处事件重复触发问题
+	修正gulp构建时无法正确生成sourcemap问题
+V0.5.1：
+	修正combo系列values绑定在某些场景中以[""]为默认值的问题
+V0.5.0：
+	首次发布
