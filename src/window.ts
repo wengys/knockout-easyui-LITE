@@ -11,7 +11,7 @@ ko.bindingHandlers["window"] = <KnockoutBindingHandler>{
                 'width': 600,
                 'collapsible': false,
                 'minimizable': false,
-                'maximizable': false
+                'maximizable': false,
                 'resizable': false,
                 "iframeFix": true,
                 'position': { at: 'center', collision: 'fit', my: 'center' }

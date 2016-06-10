@@ -14,7 +14,7 @@
 ko.bindingHandlers["easyuiOptions"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
-    easyuiOptionsVersion: '0.6.2'
+    easyuiOptionsVersion: '0.6.3'
 };
 
 var utils;
