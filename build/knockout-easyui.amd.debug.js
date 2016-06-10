@@ -988,6 +988,21 @@ ko.bindingHandlers["textboxValue"] = {
     }
 };
 
+ko.bindingHandlers["validationSummary"] = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        setInterval(function () {
+            var errors = [];
+            var invalidElements = $(element).find('.validatebox-invalid');
+            $.each(invalidElements, function (index, iElem) {
+                if ($(iElem).data('validatebox')) {
+                    errors.push($(iElem).data('validatebox').message);
+                }
+            });
+            valueAccessor()(errors);
+        }, 100);
+    }
+};
+
 ko.bindingHandlers["window"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         setTimeout(function () {
