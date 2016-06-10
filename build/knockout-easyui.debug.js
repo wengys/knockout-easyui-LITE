@@ -1,7 +1,7 @@
 ko.bindingHandlers["easyuiOptions"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
-    easyuiOptionsVersion: '0.6.3'
+    easyuiOptionsVersion: '0.7.0'
 };
 
 var utils;
@@ -823,7 +823,7 @@ ko.bindingHandlers["datetimeboxValue"] = {
     }
 };
 
-ko.bindingHandlers["numberBoxValue"] = {
+ko.bindingHandlers["numberboxValue"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         utils.component.ensureComponentInited(element, "numberbox", allBindingsAccessor);
         var value = valueAccessor();
@@ -948,6 +948,30 @@ ko.bindingHandlers["sliderValue"] = {
         var value = ko.utils.unwrapObservable(valueAccessor());
         if ($(element)["slider"]('getValue') !== value)
             $(element)["slider"]('setValue', value);
+    }
+};
+
+ko.bindingHandlers["textboxValue"] = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        utils.component.ensureComponentInited(element, "textbox", allBindingsAccessor);
+        var value = valueAccessor();
+        if (!value()) {
+            value($(element)["textbox"]('getValue'));
+        }
+        var options = $(element)["textbox"]('options');
+        var onChange = options.onChange;
+        options.onChange = function (newValue, oldValue) {
+            value = valueAccessor();
+            if (value() !== newValue) {
+                value(newValue);
+                utils.func.safeApply(onChange, $(element), arguments);
+            }
+        };
+        utils.component.bindDisposeEvent(element, "textbox");
+    },
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        $(element)["textbox"]('setValue', value);
     }
 };
 

@@ -18,7 +18,7 @@
 每个绑定都以“照旧如旧（AS-IS）”的原则编写。除非有特别注明，否则工作方式尽量接近原生的easyui操作。且主要关注于日常表单组件的双向绑定，高级功能（如编辑功能）暂不提供支持
 
 ## 项目状态
-当前版本：0.6.3。
+当前版本：0.7.0。
 
 当前已编写组件（后面为可用绑定）：
 
@@ -26,14 +26,15 @@
  1.  combobox：comboboxSource，comboboxValues，comboboxValue，comboboxText
  1.  combogrid：combogridSource，combogridValues，combogridValue
  1.  combotree：combotreeSource，combotreeValues，combotreeValue
- 1.  numberbox：numberBoxValue
- 1.  numberspinner：numberSpinnerValue
+ 1.  numberbox：numberboxValue
+ 1.  numberspinner：numberspinnerValue
  1.  slider：sliderValue
  1.  datebox：dateboxValue
  1.  datetimebox：datetimeboxValue
  1.  calendar：calendarValue
  1.  datagrid：datagridSource，datagridValues，datagridValue
  1.  window: window
+ 1.  textbox: textboxValue
 
 ## 依赖
 
@@ -86,7 +87,9 @@
 
 请先参考绑定命名约定，此处列出的是不在约定内的绑定的说明
 
-*  window：此绑定直接绑定到boolean值上，控制窗口的打开与关闭
+* window：此绑定直接绑定到boolean值上，控制窗口的打开与关闭
+
+* textboxValue: 支持 jeasyui 1.4 以上版本
 
 ## 已知问题
  1. combotree：如果组件初始化时没有设置正确的单选/多选模式，在某些场景下会导致多次请求服务端数据
