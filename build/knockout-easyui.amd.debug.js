@@ -1016,6 +1016,7 @@ ko.bindingHandlers["window"] = {
                 'maximizable': false,
                 'resizable': false,
                 "iframeFix": true,
+                "modal": true,
                 'position': { at: 'center', collision: 'fit', my: 'center' }
             });
             $.data(element).panel.options.onBeforeClose = function () {
