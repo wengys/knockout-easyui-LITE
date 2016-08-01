@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo</title>
+    <link type="text/css" rel="stylesheet" href="contents/themes/default/easyui.css" />
+    <script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="scripts/knockout-3.1.0.js"></script>
+    <script src="../../build/knockout-easyui.js"></script>
+    <style>
+        .width {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div data-bind="panel:panelOptions, easyuiOptions:{width:500,height:150}" style="padding:10px;background:#fafafa;"
+        data-options="iconCls:'icon-save',closable:true,
+                collapsible:true,minimizable:true,maximizable:true">
+        <p><input type="text" data-bind="value:contents"/></p>
+        <p><span data-bind="text:contents"></span></p>
+    </div>
+    <div class="model-display" data-bind="html:modelInfo"></div>
+    <script>
+        var model = {
+            panelOptions: ko.observable({
+                title: "Panel1"
+            }),
+            contents: ko.observable("Some contents here")
+        }
+
+        model.modelInfo = ko.computed(function () {
+            var info = ko.toJS(model)
+            delete info.modelInfo
+            return JSON.stringify(info)
+        }),
+        ko.applyBindings(model)
+    </script>
+</body>
+</html>

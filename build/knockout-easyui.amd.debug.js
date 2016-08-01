@@ -907,6 +907,12 @@ ko.bindingHandlers["numberspinnerValue"] = {
     }
 };
 
+ko.bindingHandlers["panel"] = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        utils.component.ensureComponentInited(element, "panel", allBindingsAccessor, ko.unwrap(valueAccessor()));
+    }
+};
+
 ko.bindingHandlers["progressbarValue"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         utils.component.ensureComponentInited(element, "progressbar", allBindingsAccessor);
