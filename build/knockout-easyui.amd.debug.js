@@ -14,7 +14,7 @@
 ko.bindingHandlers["easyuiOptions"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) { },
-    easyuiOptionsVersion: '0.7.0'
+    easyuiOptionsVersion: '0.7.1'
 };
 
 var utils;
@@ -286,11 +286,13 @@ ko.bindingHandlers["comboboxValues"] = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         utils.component.ensureComponentInited(element, "combobox", allBindingsAccessor);
         var curValues = $(element)["combobox"]('getValues');
+        var anyValue = true;
         if (utils.array.all(curValues, function (item) { return !item; })) {
             $(element)["combobox"]('setValues', []);
+            anyValue = false;
         }
         var values = valueAccessor();
-        if (!values() || values().length === 0) {
+        if (anyValue && (!values() || values().length === 0)) {
             curValues = $(element)["combobox"]('getValues');
             values(curValues);
         }
@@ -298,8 +300,10 @@ ko.bindingHandlers["comboboxValues"] = {
         options.multiple = true;
         var refreshValueFun = function (oriFun) {
             return function () {
-                curValues = $(element)["combobox"]('getValues');
-                values(curValues);
+                setTimeout(function () {
+                    curValues = $(element)["combobox"]('getValues');
+                    values(curValues);
+                }, 1);
                 if (oriFun)
                     oriFun.apply($(element), arguments);
             };
@@ -327,7 +331,9 @@ ko.bindingHandlers["comboboxValue"] = {
         options.multiple = false;
         var refreshValueFun = function (oriFun) {
             return function () {
-                value($(element)["combobox"]('getValue'));
+                setTimeout(function () {
+                    value($(element)["combobox"]('getValue'));
+                }, 1);
                 if (oriFun)
                     oriFun.apply($(element), arguments);
             };

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo</title>
+    <link type="text/css" rel="stylesheet" href="contents/themes/default/easyui.css" />
+    <script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="scripts/knockout-3.1.0.js"></script>
+    <script src="../../build/knockout-easyui.debug.js"></script>
+    <style>
+        .width {
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div>
+            <input class="width" data-bind="comboboxSource:source,comboboxValue:value,comboboxText:text,easyuiOptions:viewSettings" />
+        </div>
+        <div data-bind="foreach:source">
+            <input type="radio" data-bind="checked:$root.value,checkedValue:$data.code">
+            <label data-bind="text:name"></label>
+        </div>
+        <div>
+            <input class="width" data-bind="comboboxSource:source,comboboxValues:values,easyuiOptions:viewSettings" />
+        </div>
+        <div data-bind="foreach:source">
+            <input type="checkbox" data-bind="checked:$root.values,checkedValue:$data.code">
+            <label data-bind="text:name"></label>
+        </div>
+    </div>
+    <div class="model-display" data-bind="html:modelInfo"></div>
+    <script>
+        var model = {
+            source: ko.observableArray([
+                { code: "1", name: 'HTML' },
+                { code: "2", name: 'JAVASCRIPT' },
+                { code: "3", name: 'CSS' }
+            ]),
+            value: ko.observable("2"),
+            text: ko.observable(),
+            values: ko.observableArray(),
+            viewSettings: {
+                valueField: 'code',
+                textField: 'name',
+                onChange: function (newValue, oldValue) {
+                    console.log("native onChange", newValue, oldValue)
+                }
+            }
+        }
+
+        model.value.subscribe(function () {
+            console.log("value change", arguments)
+        })
+
+        model.values.subscribe(function () {
+            console.log("values change", arguments)
+        })
+
+        model.modelInfo = ko.computed(function () {
+            var info = ko.toJS(model)
+            delete info.viewSettings
+            delete info.modelInfo
+            return JSON.stringify(info);
+        }),
+        ko.applyBindings(model)
+    </script>
+</body>
+</html>

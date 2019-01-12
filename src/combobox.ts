@@ -21,11 +21,13 @@ ko.bindingHandlers["comboboxValues"] = {
     init: (element: Element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) => {
         utils.component.ensureComponentInited(element, "combobox", allBindingsAccessor)
         var curValues = $(element)["combobox"]('getValues') //修正初始化导致默认选中""的问题
+        var anyValue = true; // 1.5版setValue后直接getValue仍然返回""
         if (utils.array.all(curValues, (item) => !item)) {
             $(element)["combobox"]('setValues', [])
+            anyValue = false
         }
         var values = valueAccessor();
-        if (!values() || values().length === 0) {//如果没有默认值，则初始化为当前combobox的值
+        if (anyValue && (!values() || values().length === 0)) {//如果没有默认值，则初始化为当前combobox的值
             curValues = $(element)["combobox"]('getValues')
             values(curValues)
         }
@@ -34,8 +36,10 @@ ko.bindingHandlers["comboboxValues"] = {
 
         var refreshValueFun = (oriFun) =>
             function () {
-                curValues = $(element)["combobox"]('getValues')
-                values(curValues)
+                setTimeout(()=>{
+                    curValues = $(element)["combobox"]('getValues')
+                    values(curValues)
+                },1)
                 if (oriFun)
                     oriFun.apply($(element), arguments)
             }
@@ -62,7 +66,9 @@ ko.bindingHandlers["comboboxValue"] = {
         options.multiple = false
         var refreshValueFun = (oriFun) =>
             function () {
-                value($(element)["combobox"]('getValue'))
+                setTimeout(()=>{
+                    value($(element)["combobox"]('getValue'))
+                },1)
                 if (oriFun)
                     oriFun.apply($(element), arguments)
             }

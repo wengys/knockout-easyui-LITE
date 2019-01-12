@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo</title>
+    <link type="text/css" rel="stylesheet" href="contents/themes/default/easyui.css" />
+    <script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="scripts/knockout-3.1.0.js"></script>
+    <script src="../../build/knockout-easyui.debug.js"></script>
+    <style>
+        .width {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <input type="text" class="width" data-bind="numberboxValue:value,easyuiOptions:viewSettings" value="100" data-options="min:0,precision:2">
+    </div>
+    <div class="model-display" data-bind="html:modelInfo"></div>
+    <script>
+        var model = {
+            value: ko.observable(),
+            viewSettings: {
+                onChange: function (newValue, oldValue) {
+                    console.log("native onChange", newValue, oldValue)
+                }
+            }
+        }
+
+        model.value.subscribe(function () {
+            console.log("value change", arguments)
+        })
+
+        model.modelInfo = ko.computed(function () {
+            var info = ko.toJS(model)
+            delete info.viewSettings
+            delete info.modelInfo
+            return JSON.stringify(info);
+        }),
+        ko.applyBindings(model)
+    </script>
+</body>
+</html>

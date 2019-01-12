@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo</title>
+    <link type="text/css" rel="stylesheet" href="contents/themes/default/easyui.css" />
+    <script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="scripts/knockout-3.1.0.js"></script>
+    <script src="../../build/knockout-easyui.debug.js"></script>
+    <style>
+        .width {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div>
+            <input class="width" data-bind="combotreeSource:source,combotreeValue:value,easyuiOptions:viewSettings" />
+        </div>
+        <div>
+            <input type="radio" data-bind="checked:$root.value,checkedValue:'1'">
+            <label>Languages</label>
+            <input type="radio" data-bind="checked:$root.value,checkedValue:'10'">
+            <label>C++</label>
+            <input type="radio" data-bind="checked:$root.value,checkedValue:'11'">
+            <label>C#</label>
+            <input type="radio" data-bind="checked:$root.value,checkedValue:'12'">
+            <label>Java</label>
+        </div>
+        <div>
+            <input class="width" data-bind="combotreeSource:source,combotreeValues:values,easyuiOptions:viewSettings" />
+        </div>
+        <div>
+            <input type="checkbox" data-bind="checked:$root.values,checkedValue:'1'">
+            <label>Languages</label>
+            <input type="checkbox" data-bind="checked:$root.values,checkedValue:'10'">
+            <label>C++</label>
+            <input type="checkbox" data-bind="checked:$root.values,checkedValue:'11'">
+            <label>C#</label>
+            <input type="checkbox" data-bind="checked:$root.values,checkedValue:'12'">
+            <label>Java</label>
+        </div>
+    </div>
+    <div class="model-display" data-bind="html:modelInfo"></div>
+    <script>
+        var model = {
+            source: ko.observableArray([{
+                id: 1,
+                text: 'Languages',
+                children: [{
+                    id: 10,
+                    text: 'C++'
+                }, {
+                    id: 11,
+                    text: 'C#'
+                }, {
+                    id: 12,
+                    text: 'Java'
+                }]
+            }]),
+            value: ko.observable(10),
+            values: ko.observableArray(),
+            viewSettings: {
+                onChange: function (newValue, oldValue) {
+                    console.log("native onChange", newValue, oldValue)
+                }
+            }
+        }
+
+        model.value.subscribe(function () {
+            console.log("value change", arguments)
+        })
+
+        model.values.subscribe(function () {
+            console.log("values change", arguments)
+        })
+
+        model.modelInfo = ko.computed(function () {
+            var info = ko.toJS(model)
+            delete info.viewSettings
+            delete info.modelInfo
+            return JSON.stringify(info);
+        }),
+        ko.applyBindings(model)
+    </script>
+</body>
+</html>
